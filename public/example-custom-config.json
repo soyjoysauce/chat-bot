@@ -1,0 +1,22 @@
+{
+    "name": "E-commerce Platform",
+    "rules": [
+      "Must be responsive across all devices",
+      "Performance optimized (< 3s load time)",
+      "SEO friendly with semantic HTML",
+      "WCAG 2.1 AA compliant"
+    ],
+    "blockers": [
+      "No jQuery dependencies",
+      "Must support IE11+",
+      "GDPR compliant data handling"
+    ],
+    "techStack": ["React", "TypeScript", "Node.js", "WordPress", "Tailwind CSS"],
+    "notes": "Focus on conversion optimization and user experience",
+    "customPrompts": {
+      "component": "All components must be reusable and follow atomic design principles",
+      "functionality": "Prioritize performance and user experience in all features",
+      "design": "Maintain brand consistency and accessibility standards",
+      "validation": "Include comprehensive error handling and user feedback"
+    }
+  }
