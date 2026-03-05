@@ -1,6 +1,6 @@
-# Web Design Requirements Chatbot
+# Neural Bridge
 
-A React-based chatbot that converts design discussions into structured development requirements using simple keyword matching.
+A React-based application that converts design discussions into structured development requirements using simple keyword matching.
 
 ## What It Does
 
@@ -49,16 +49,7 @@ const designKeywords = ['responsive', 'mobile', 'dark mode', 'animation'];
 
 ```bash
 # Install dependencies
-npm install lucide-react
-
-# For Tailwind CSS v3
-npm install -D tailwindcss@^3.4.0 postcss autoprefixer
-npx tailwindcss init -p
-
-# Add to src/index.css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+npm install
 
 # Import components and start
 npm start
