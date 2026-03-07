@@ -1,4 +1,4 @@
-# Neural Bridge
+# Neural Bridge 
 
 A React-based application that converts design discussions into structured development requirements using simple keyword matching.
 
