@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit3, Trash2, Save, X, Copy, Download, Upload } from 'lucide-react';
 
-const ProjectConfigManager = ({ projectPrompts, setProjectPrompts }) => {
+const ProjectConfigManager = ({ projectPrompts, onSaveConfig, onDeleteConfig, onImportConfigs }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [formData, setFormData] = useState({
@@ -85,7 +85,7 @@ const ProjectConfigManager = ({ projectPrompts, setProjectPrompts }) => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name.trim()) return;
 
     const projectConfig = {
@@ -96,31 +96,20 @@ const ProjectConfigManager = ({ projectPrompts, setProjectPrompts }) => {
       customPrompts: formData.customPrompts
     };
 
-    setProjectPrompts(prev => ({
-      ...prev,
-      [formData.name]: projectConfig
-    }));
-
+    await onSaveConfig(formData.name, projectConfig, editingProject);
     handleCloseModal();
   };
 
-  const handleDelete = (projectName) => {
+  const handleDelete = async (projectName) => {
     if (window.confirm(`Are you sure you want to delete "${projectName}"?`)) {
-      setProjectPrompts(prev => {
-        const updated = { ...prev };
-        delete updated[projectName];
-        return updated;
-      });
+      await onDeleteConfig(projectName);
     }
   };
 
-  const handleDuplicate = (projectName) => {
+  const handleDuplicate = async (projectName) => {
     const config = projectPrompts[projectName];
     const newName = `${projectName} - Copy`;
-    setProjectPrompts(prev => ({
-      ...prev,
-      [newName]: { ...config }
-    }));
+    await onSaveConfig(newName, { ...config });
   };
 
   const exportConfigs = () => {
@@ -137,10 +126,10 @@ const ProjectConfigManager = ({ projectPrompts, setProjectPrompts }) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         try {
           const imported = JSON.parse(e.target.result);
-          setProjectPrompts(prev => ({ ...prev, ...imported }));
+          await onImportConfigs(imported);
         } catch (error) {
           alert('Invalid JSON file');
         }
