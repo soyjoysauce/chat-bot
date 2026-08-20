@@ -36,16 +36,20 @@ create trigger set_updated_at
 
 -- ─────────────────────────────────────────
 -- Row Level Security
--- Currently open (no auth). Replace the
--- policy below with user-scoped policies
--- when authentication is added.
+-- Access is restricted to signed-in users on
+-- the corporate doctorgenius.com Google
+-- Workspace domain (see README "Authentication
+-- Setup"). Any @doctorgenius.com account gets
+-- full read/write access to this table.
 -- ─────────────────────────────────────────
 alter table project_configs enable row level security;
 
 drop policy if exists "Allow all operations" on project_configs;
 
-create policy "Allow all operations"
+drop policy if exists "Corporate domain users only" on project_configs;
+
+create policy "Corporate domain users only"
   on project_configs
   for all
-  using (true)
-  with check (true);
+  using (auth.jwt() ->> 'email' like '%@doctorgenius.com')
+  with check (auth.jwt() ->> 'email' like '%@doctorgenius.com');

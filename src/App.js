@@ -1,9 +1,15 @@
 import WebDesignRequirementsApp from './components/web-design-requirements-app';
+import { AuthProvider } from './contexts/AuthContext';
+import AuthGate from './components/auth/AuthGate';
 
 function App() {
   return (
     <div className="App">
-      <WebDesignRequirementsApp />
+      <AuthProvider>
+        <AuthGate>
+          <WebDesignRequirementsApp />
+        </AuthGate>
+      </AuthProvider>
     </div>
   );
 }

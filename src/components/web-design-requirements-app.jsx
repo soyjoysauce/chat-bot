@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Settings, FileText, Zap } from 'lucide-react';
+import { MessageSquare, Settings, FileText, Zap, LogOut } from 'lucide-react';
 import DesignRequirementsBot from './design-requirements-chatbot';
 import ProjectConfigManager from './project-config-manager';
 import {
@@ -7,8 +7,10 @@ import {
   upsertConfig,
   deleteConfig
 } from '../lib/projectConfigService';
+import { useAuth } from '../contexts/AuthContext';
 
 const WebDesignRequirementsApp = () => {
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('chat');
   const [projectPrompts, setProjectPrompts] = useState({});
   const [loading, setLoading] = useState(true);
@@ -80,11 +82,23 @@ const WebDesignRequirementsApp = () => {
                 <p className="text-gray-600">Transform design discussions into structured, actionable requirements</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-sm text-gray-600">
+            <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${dbError ? 'bg-red-500' : loading ? 'bg-yellow-400' : 'bg-green-500'}`}></div>
                 <span>{dbError ? 'DB Error' : loading ? 'Connecting…' : 'PHP, JS, React, TS, Node.js Ready'}</span>
               </div>
+              {user && (
+                <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+                  <span className="text-gray-500">{user.email}</span>
+                  <button
+                    onClick={signOut}
+                    className="flex items-center gap-1.5 text-gray-600 hover:text-gray-900 font-medium"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign out
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
